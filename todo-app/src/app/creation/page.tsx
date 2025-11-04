@@ -1,14 +1,15 @@
-import react from 'react';
+import Rectangle from "@/app/utils/rectangle";
 
-function Page() {
+function TaskCreatePage() {
     return (
-        <div className="flex flex-col justify-center">
-            <div className="flex justify-center">
-                Create your task
-            </div>
-        </div>
+        <div className="w-full h-screen flex justify-center items-center">
 
+            <Rectangle>
+                <h1>Create task</h1>
+            </Rectangle>
+
+        </div>
     )
 }
 
-export default Page;
+export default TaskCreatePage;
