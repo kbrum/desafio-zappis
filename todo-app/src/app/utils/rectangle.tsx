@@ -4,20 +4,19 @@ import React from "react";
 // tipagem das props recebidas na função Rectangle
 interface RectangleProps {
     children?: React.ReactNode;
-    classname?: string;
 }
 
-// retangulo branco
-function Rectangle({children, classname = ""}: RectangleProps) {
-
-    const baseClass = "flex flex-col items-center justify-start h-[500px] w-[350px] rounded-md bg-white"
+// retangulo menor
+function Rectangle({children}: RectangleProps) {
 
     return (
-        <div className={`${baseClass} ${classname}`}>
-            {children}
+        <div
+            className="relative h-[600px] w-[450px] border-black border-2 rounded-md hover:shadow-[8px_8px_0px_rgba(0,0,0,1)] bg-white">
+            <div className="px-6 py-5 text-left h-full">
+                {children}
+            </div>
         </div>
     );
 }
 
 export default Rectangle;
-

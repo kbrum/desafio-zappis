@@ -12,8 +12,9 @@ function ToDoCreateButton() {
 
     return (
         <div className="flex items-center justify-center">
-            <button onClick={handleClick} className="text-black hover:bg-gray-600 bg-gray-400 rounded-md p-2">
-                Create task
+            <button onClick={handleClick}
+                    className="absolute bottom-6 text-black h-12 cursor-pointer border-black border-2 p-2.5 bg-[#A6FAFF] hover:bg-[#79F7FF] hover:shadow-[2px_2px_0px_rgba(0,0,0,1)] active:bg-[#00E1EF] rounded-md">
+                Criar Task
             </button>
         </div>
     )
