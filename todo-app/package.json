@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@libsql/client": "^0.15.15",
+    "@prisma/client": "^6.19.0",
     "@supabase/supabase-js": "^2.79.0",
     "classnames": "^2.5.1",
     "clsx": "^2.1.1",

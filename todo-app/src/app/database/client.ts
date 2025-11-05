@@ -8,5 +8,4 @@ if (!supabaseUrl || !supabaseKey) {
     throw new Error("As variáveis de ambiente do Supabase devem ser definidas");
 }
 
-// Cria e exporta o cliente Supabase para ser usado nos Route Handlers
 export const supabase = createClient(supabaseUrl, supabaseKey);
