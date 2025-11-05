@@ -2,12 +2,8 @@
 import classNames from "classnames";
 import React, {useState} from "react";
 
-interface CheckboxProps {
-    className?: string;
-}
-
 // checkbox das tasks
-export default function Checkbox({className = ""}: CheckboxProps) {
+export default function Task() {
     const [checked, setChecked] = useState(false);
 
     // muda o estado da box para checked
