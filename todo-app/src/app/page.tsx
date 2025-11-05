@@ -1,13 +1,15 @@
 import ListCheckbox from "@/app/home/checkbox";
-import ToDoCreateButton from "@/app/home/toDoCreateButton";
+import TaskCreateButton from "@/app/home/taskCreateButton";
 import Rectangle from "@/app/utils/rectangle";
+import TaskDeleteButton from "@/app/home/taskDeleteButton";
+import TaskEditButton from "@/app/home/taskEditButton";
 
 export default function Home() {
     return (
         <div className="relative w-full h-screen flex justify-center items-center">
-            <div className="absolute top-38 flex items-center justify-center">
+            <div className="fixed top-[13%] flex items-center justify-center">
 
-                <h1 className="text-black text-5xl">TO-DO list</h1>
+                <h1 className="text-black text-5xl ">TO-DO list</h1>
 
             </div>
             <Rectangle>
@@ -16,8 +18,10 @@ export default function Home() {
                     <ListCheckbox/>
                 </div>
 
-                <div className="mb-3 flex items-center justify-center">
-                    <ToDoCreateButton/>
+                <div className="flex items-center justify-center">
+                    <TaskCreateButton/>
+                    <TaskEditButton/>
+                    <TaskDeleteButton/>
                 </div>
 
             </Rectangle>

@@ -7,7 +7,7 @@ interface RectangleProps {
 }
 
 // retangulo menor
-function Rectangle({children}: RectangleProps) {
+export default function Rectangle({children}: RectangleProps) {
 
     return (
         <div
@@ -19,4 +19,3 @@ function Rectangle({children}: RectangleProps) {
     );
 }
 
-export default Rectangle;
