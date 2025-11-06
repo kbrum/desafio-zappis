@@ -1,13 +1,13 @@
 "use client"
 import React from "react";
 
-// tipagem das props recebidas na função Rectangle
+// tipagem das props recebidas na função Card
 interface RectangleProps {
     children?: React.ReactNode;
 }
 
 // retangulo menor
-export default function Rectangle({children}: RectangleProps) {
+export default function Card({children}: RectangleProps) {
 
     return (
         <div

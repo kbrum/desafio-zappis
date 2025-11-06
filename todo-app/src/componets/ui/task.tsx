@@ -7,13 +7,63 @@ interface taskProps {
     title: string;
     initialDone: boolean;
     onToggle: (id: number, isChecked: boolean) => void;
-    onUpdate: (id: number, title: string) => void;
+    onUpdateTitle: (id: number, newTitle: string) => void;
     onDelete: (id: number) => void;
 }
 
 // checkbox das tasks
-export default function Task({id, title, initialDone, onToggle, onUpdate, onDelete}: taskProps) {
+export default function Task({id, title, initialDone, onToggle, onUpdateTitle, onDelete}: taskProps) {
 
+    // controla o estado do checkbox para ser usado no visual da linha riscada
+    const [checked, setChecked] = useState(initialDone);
+
+    // controla se esta em modo de esdição ou não
+    const [isEditing, setIsEditing] = useState(false);
+
+    // armazena o texto que esta sendo digitado antes de ser salvo
+    const [taskTitle, setTaskTitle] = useState(title);
+
+    // atualiza o estado visual da box
+    const CheckBoxChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
+        const isChecked = event.target.checked;
+        setChecked(isChecked);
+        onToggle(id, isChecked);
+    };
+
+    // chama o metodo que deleta a task
+    const handleDelete = () => {
+        onDelete(id);
+    };
+
+    // gatilho de ativação da edição
+    const handleDoubleClick = () => {
+        setIsEditing(true);
+        setTaskTitle(title);
+    };
+
+    // salva o novo titulo se ele existir e for diferente do antigo
+    const handleSave = () => {
+        const trimmedTitle = taskTitle.trim();
+
+        if (trimmedTitle && trimmedTitle !== title) {
+            onUpdateTitle(id, trimmedTitle);
+        } else {
+            setTaskTitle(title);
+        }
+
+        setIsEditing(false);
+    };
+
+    // atalhos de teclado
+    const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+        if (event.key === 'Enter') {
+            handleSave();
+        }
+        if (event.key === 'Escape') {
+            setTaskTitle(title);
+            setIsEditing(false);
+        }
+    };
 
     return (
         <div className="absolute top-10 left-10 ">
