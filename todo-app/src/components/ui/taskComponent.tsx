@@ -1,6 +1,9 @@
 "use client"
 import React, {useState} from "react";
+// Importações de UI genéricas
 import {Checkbox} from "@/components/ui/checkbox";
+import {Button} from "@/components/ui/button";
+import {Trash2} from "lucide-react";
 
 interface taskProps {
     id: number;
@@ -11,31 +14,25 @@ interface taskProps {
     onDelete: (id: number) => void;
 }
 
-// checkbox das tasks
 export default function TaskComponent({id, title, initialDone, onToggle, onUpdateTitle, onDelete}: taskProps) {
 
-    // controla o estado do checkbox para ser usado no visual da linha riscada
     const [checked, setChecked] = useState(initialDone);
-
-    // controla se esta em modo de esdição ou não
     const [isEditing, setIsEditing] = useState(false);
-
-    // armazena o texto que esta sendo digitado antes de ser salvo
     const [taskTitle, setTaskTitle] = useState(title);
 
-    // atualiza o estado visual da box
-    const CheckBoxChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
-        const isChecked = event.target.checked;
+    // ✅ FUNÇÃO NOVA E CORRETA: Manipula a API do Shadcn Checkbox
+    const handleCheckToggle = (newChecked: boolean | 'indeterminate') => {
+        const isChecked = newChecked === true;
         setChecked(isChecked);
-        onToggle(id, isChecked);
-    };
+        onToggle(id, isChecked); // Comunica a mudança ao componente pai
+    }
 
-    // chama o metodo que deleta a task
+    // chama o metodo que deleta a task (Lifting State Up)
     const handleDelete = () => {
         onDelete(id);
     };
 
-    // gatilho de ativação da edição
+    // gatilho de ativação da edição (duplo clique)
     const handleDoubleClick = () => {
         setIsEditing(true);
         setTaskTitle(title);
@@ -48,14 +45,14 @@ export default function TaskComponent({id, title, initialDone, onToggle, onUpdat
         if (trimmedTitle && trimmedTitle !== title) {
             onUpdateTitle(id, trimmedTitle);
         } else {
-            setTaskTitle(title);
+            setTaskTitle(title); // Reverte o rascunho
         }
 
         setIsEditing(false);
     };
 
 
-    // atalhos de teclado
+    // atalhos de teclado (Enter para salvar, Escape para cancelar)
     const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
         if (event.key === 'Enter') {
             handleSave();
@@ -66,7 +63,7 @@ export default function TaskComponent({id, title, initialDone, onToggle, onUpdat
         }
     };
 
-    // controla os estados do titulo, entre input e span
+    // Renderização condicional do título (Input ou Span)
     const taskDisplay = isEditing ? (
         <input
             type="text"
@@ -88,15 +85,26 @@ export default function TaskComponent({id, title, initialDone, onToggle, onUpdat
         <div className="flex justify-between items-center py-2 px-1 border-b border-gray-200 w-full">
 
             <label className="flex cursor-pointer space-x-3 items-center text-md flex-grow pr-4">
-                <Checkbox/>
+                {/* Checkbox usando a API onCheckedChange */}
+                <Checkbox
+                    checked={checked}
+                    onCheckedChange={handleCheckToggle}
+                />
                 {taskDisplay}
             </label>
 
+            {/* Botão de Exclusão (Button genérico com variante destructive) */}
             {!isEditing && (
-                <TaskDeleteButton onClick={handleDelete}/>
+                <Button
+                    variant="destructive"
+                    size="icon"
+                    onClick={handleDelete}
+                    className="h-8 w-8 p-1.5"
+                >
+                    <Trash2 className="h-4 w-4"/>
+                </Button>
             )}
 
         </div>
     )
 }
-
