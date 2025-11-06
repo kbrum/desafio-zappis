@@ -2,12 +2,18 @@
 import classNames from "classnames";
 import React, {useState} from "react";
 
-// checkbox das tasks
-export default function Task() {
-    const [checked, setChecked] = useState(false);
+interface taskProps {
+    id: number;
+    title: string;
+    initialDone: boolean;
+    onToggle: (id: number, isChecked: boolean) => void;
+    onUpdate: (id: number, title: string) => void;
+    onDelete: (id: number) => void;
+}
 
-    // muda o estado da box para checked
-    const CheckBoxChange: React.ChangeEventHandler<HTMLInputElement> = (event) => setChecked(event.target.checked);
+// checkbox das tasks
+export default function Task({id, title, initialDone, onToggle, onUpdate, onDelete}: taskProps) {
+
 
     return (
         <div className="absolute top-10 left-10 ">

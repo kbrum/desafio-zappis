@@ -1,29 +1,27 @@
 "use client"
-import Task from "@/app/home/task";
-import TaskCreateButton from "@/app/home/taskCreateButton";
-import Rectangle from "@/app/utils/rectangle";
-import TaskDeleteButton from "@/app/home/taskDeleteButton";
+import Task from "@/components/ui/task";
+import TaskCreateButton from "@/components/ui/taskCreateButton";
+import Card from "@/app/utils/card";
 
 export default function Home() {
-    return (
-        <div className="relative w-full h-screen flex justify-center items-center">
-            <div className="fixed top-[13%] flex items-center justify-center">
 
-                <h1 className="text-black text-5xl ">TO-DO LIST</h1>
-                t
-            </div>
-            <Rectangle>
-                8
-                <div className="mb-auto mt-auto flex-col flex items-center justify-center">
+
+    return (
+        <div className="w-full h-screen flex flex-col justify-center items-center gap-1">
+
+            <h1 className="text-black text-5xl ">TO-DO LIST</h1>
+
+            <Card>
+
+                <div className="absolute flex-col flex top-[2%] left-[2%]">
                     <Task/>
                 </div>
 
-                <div className="flex space-x-2 items-center justify-center fixed bottom-[20%] right-[40%]">
+                <div className="flex absolute space-x-1 top-[2%] right-[2%]">
                     <TaskCreateButton/>
-                    <TaskDeleteButton/>
                 </div>
 
-            </Rectangle>
+            </Card>
         </div>
     )
 }
