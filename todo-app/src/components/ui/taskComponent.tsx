@@ -1,6 +1,7 @@
 "use client"
-import classNames from "classnames";
 import React, {useState} from "react";
+import TaskDeleteButton from "@/components/ui/taskDeleteButton";
+import {Checkbox} from "@/components/ui/checkbox";
 
 interface taskProps {
     id: number;
@@ -12,7 +13,7 @@ interface taskProps {
 }
 
 // checkbox das tasks
-export default function Task({id, title, initialDone, onToggle, onUpdateTitle, onDelete}: taskProps) {
+export default function TaskComponent({id, title, initialDone, onToggle, onUpdateTitle, onDelete}: taskProps) {
 
     // controla o estado do checkbox para ser usado no visual da linha riscada
     const [checked, setChecked] = useState(initialDone);
@@ -54,6 +55,7 @@ export default function Task({id, title, initialDone, onToggle, onUpdateTitle, o
         setIsEditing(false);
     };
 
+
     // atalhos de teclado
     const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
         if (event.key === 'Enter') {
@@ -65,21 +67,36 @@ export default function Task({id, title, initialDone, onToggle, onUpdateTitle, o
         }
     };
 
+    // controla os estados do titulo, entre input e span
+    const taskDisplay = isEditing ? (
+        <input
+            type="text"
+            value={taskTitle}
+            onChange={(e) => setTaskTitle(e.target.value)}
+            onBlur={handleSave}
+            onKeyDown={handleKeyDown}
+            className="text-lg text-black border-b border-black focus:outline-none w-full"
+            autoFocus
+        />
+    ) : (
+        <span className={`text-lg cursor-pointer ${checked ? 'line-through text-gray-500' : 'text-black'}`}
+              onDoubleClick={handleDoubleClick}>
+            {title}
+        </span>
+    );
+
     return (
-        <div className="absolute top-10 left-10 ">
-            <label className="flex cursor-pointer space-x-3 text-black text-md">
-                <input
-                    className={classNames(
-                        "appearance-none outline-none block relative cursor-pointer w-5 h-5 before:rounded-sm before:block before:absolute before:content-[''] before:bg-[#FFC29F] before:w-5 before:h-5 before:border-black before:border-2 before:hover:shadow-[2px_2px_0px_rgba(0,0,0,1)]  after:block after:content-[''] after:absolute after:left-1.5 after:top-0.5 after:w-2 after:h-3 after:border-black after:border-r-2 after:border-b-2 after:origin-center after:rotate-45",
-                        {"after:opacity-100": checked},
-                        {"after:opacity-0": !checked}
-                    )}
-                    checked={checked}
-                    onChange={CheckBoxChange}
-                    type="checkbox"
-                />
-                <span className="text-lg">task</span>
+        <div className="flex justify-between items-center py-2 px-1 border-b border-gray-200 w-full">
+
+            <label className="flex cursor-pointer space-x-3 items-center text-md flex-grow pr-4">
+                <Checkbox/>
+                {taskDisplay}
             </label>
+
+            {!isEditing && (
+                <TaskDeleteButton onClick={handleDelete}/>
+            )}
+
         </div>
     )
 }

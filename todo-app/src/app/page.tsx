@@ -1,25 +1,27 @@
-"use client"
-import Task from "@/components/ui/task";
-import TaskCreateButton from "@/components/ui/taskCreateButton";
-import Card from "@/app/utils/card";
+import {Button} from "@/components/ui/button";
+import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card";
+import {PlusIcon} from "lucide-react";
 
 export default function Home() {
 
-
     return (
-        <div className="w-full h-screen flex flex-col justify-center items-center gap-1">
+        <div className={"flex justify-center items-center h-screen"}>
 
-            <h1 className="text-black text-5xl ">TO-DO LIST</h1>
+            <Card className={"w-[400px] h-[600px}"}>
 
-            <Card>
+                <CardHeader>
+                    <CardTitle className={"flex text-3xl justify-center items-center"}>
+                        TESTE
+                    </CardTitle>
+                </CardHeader>
 
-                <div className="absolute flex-col flex top-[2%] left-[2%]">
-                    <Task/>
-                </div>
-
-                <div className="flex absolute space-x-1 top-[2%] right-[2%]">
-                    <TaskCreateButton/>
-                </div>
+                <CardContent className={"flex-col justify-between"}>
+                    <div className={"flex justify-end"}>
+                        <Button size={"icon"}>
+                            <PlusIcon/>
+                        </Button>
+                    </div>
+                </CardContent>
 
             </Card>
         </div>

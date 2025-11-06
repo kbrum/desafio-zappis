@@ -1,6 +1,16 @@
 import type {Metadata} from "next";
-import {Modak} from "next/font/google";
+import {Modak, Rubik_Mono_One, Space_Grotesk} from "next/font/google";
 import "./globals.css";
+
+const font3 = Rubik_Mono_One({
+    weight: "400",
+    subsets: ["latin"]
+})
+
+const font2 = Space_Grotesk({
+    weight: "400",
+    subsets: ["latin"]
+})
 
 const font = Modak({
     weight: "400",
@@ -19,7 +29,7 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en">
-        <body className={font.className}>{children}</body>
+        <body className={font3.className}>{children}</body>
         </html>
     );
 }
