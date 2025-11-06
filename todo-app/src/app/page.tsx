@@ -1,129 +1,113 @@
 "use client"
 import React, {useState} from "react";
-// Importamos os tipos e componentes conforme a nova estrutura do seu projeto
+import {Button} from "@/components/ui/button";
+import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card";
+import {PlusIcon} from "lucide-react";
 import {Task} from "../../types";
 import TaskComponent from "@/components/ui/taskComponent";
-import {Card} from "@/components/ui/card";
 
-// --- Componente de Entrada para Criar Tarefas (TaskInput) ---
-// Isola o estado e a lógica do input para manter o componente Home limpo
+
 const TaskInput = ({onAddTask}: { onAddTask: (title: string) => void }) => {
     const [title, setTitle] = useState('');
 
     const handleSubmit = () => {
         if (title.trim()) {
             onAddTask(title.trim());
-            setTitle(''); // Limpa o input após a criação (UX)
+            setTitle(''); // Limpa o campo
         }
     };
 
     return (
-        <div className="mb-4">
-            {/* Input para digitar a tarefa */}
+        <div className="flex w-full space-x-2 pb-4 border-b">
             <input
                 type="text"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 onKeyDown={(e) => {
-                    if (e.key === 'Enter') handleSubmit(); // Salva com Enter (Agilidade/UX)
+                    if (e.key === 'Enter') handleSubmit(); // Cria com Enter Key
                 }}
                 placeholder="Nova tarefa..."
-                // Estilos para o input (Clean Code: separei o Input da lista)
-                className="w-full p-2 border-black border-2 rounded-md mb-4 text-black focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+                className="flex-grow p-2 border border-input rounded-md text-black focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
             />
-
-            {/* Os botões de ação fixos no Card */}
-            <div className="flex space-x-2 items-center justify-center fixed bottom-10 right-10">
-                <TaskCreateButton onClick={handleSubmit}/>
-                {/* O botão Delete global pode ser usado aqui para limpar TUDO ou tarefas concluídas */}
-                <TaskDeleteButton onClick={() => console.log('Delete All/Completed Tapped')}/>
-            </div>
+            {/* Botão de Adicionar (Button genérico) */}
+            <Button size={"icon"} onClick={handleSubmit} disabled={!title.trim()}>
+                <PlusIcon className="h-4 w-4"/>
+            </Button>
         </div>
     );
 };
 
 
-// --- Componente Principal (Home) com a Lógica de Estado ---
 export default function Home() {
 
-    // 1. Estado Central (READ)
-    const [tasks, setTasks] = useState<Task[]>([
-        // Tarefas de exemplo
-        {id: Date.now(), title: "Refatorar o Task component", done: false},
-        {id: Date.now() + 1, title: "Estudar Next.js e TypeScript", done: true},
-    ]);
+    const [tasks, setTasks] = useState<Task[]>([]);
 
-    // 2. Lógica CRUD - Handlers de Estado
-
-    // CREATE
     const addTask = (title: string) => {
-        const newTask: Task = {
-            id: Date.now(),
-            title,
-            done: false,
-        };
-        setTasks(prevTasks => [newTask, ...prevTasks]); // Imutabilidade: Adiciona no topo
+        // Objeto de criação agora está em conformidade com a interface Task simplificada.
+        const newTask: Task = {id: Date.now(), title, done: false,};
+        setTasks(prevTasks => [newTask, ...prevTasks]);
     };
 
-    // UPDATE - Alternar Conclusão
     const toggleTask = (id: number, isChecked: boolean) => {
         setTasks(prevTasks =>
             prevTasks.map(task =>
-                task.id === id ? {...task, done: isChecked} : task // Imutabilidade
+                task.id === id ? {...task, done: isChecked} : task
             )
         );
     };
 
-    // UPDATE - Atualizar Título
     const updateTaskTitle = (id: number, newTitle: string) => {
         setTasks(prevTasks =>
             prevTasks.map(task =>
-                task.id === id ? {...task, title: newTitle} : task // Imutabilidade
+                task.id === id ? {...task, title: newTitle} : task
             )
         );
     };
 
-    // DELETE
     const deleteTask = (id: number) => {
-        setTasks(prevTasks => prevTasks.filter(task => task.id !== id)); // Imutabilidade
+        setTasks(prevTasks => prevTasks.filter(task => task.id !== id));
     };
 
 
-    // --- 3. Renderização do Componente Principal ---
     return (
-        <div className="relative w-full h-screen flex flex-col items-center justify-center">
+        <div className={"flex justify-center items-center h-screen"}>
 
-            <div className="fixed top-[13%] flex items-center justify-center mb-8">
-                <h1 className="text-black text-5xl ">TO-DO LIST</h1>
-            </div>
+            <Card className={"w-[400px] h-[600px] flex flex-col"}>
 
-            <Card>
-                {/* Container para o input e a lista, com scroll */}
-                <div className="flex-col h-full overflow-y-auto">
+                <CardHeader>
+                    <CardTitle className={"flex text-3xl justify-center items-center"}>
+                        TO-DO LIST
+                    </CardTitle>
+                </CardHeader>
 
-                    {/* Renderiza o input de Criação (CREATE) */}
+                <CardContent className={"flex flex-col flex-grow p-6 pt-0 space-y-4"}>
+
+                    {/* Input e Botão de Criação */}
                     <TaskInput onAddTask={addTask}/>
 
-                    {/* Lista de Tarefas (READ e mapeamento dos Handlers) */}
-                    {tasks.map(task => (
-                        <TaskComponent // Usamos TaskComponent para evitar conflito
-                            key={task.id}
-                            id={task.id}
-                            title={task.title || ''}
-                            initialDone={task.done || false}
-                            onToggle={toggleTask}
-                            onUpdateTitle={updateTaskTitle}
-                            onDelete={deleteTask}
-                        />
-                    ))}
+                    {/* Área da Lista (READ) */}
+                    <div className="flex-grow overflow-y-auto space-y-2 pr-2">
 
-                    {tasks.length === 0 && (
-                        <p className="text-center text-gray-500 mt-10">Nenhuma tarefa. Crie uma!</p>
-                    )}
-                </div>
+                        {tasks.map(task => (
+                            // Os valores task.title e task.done AGORA são garantidos como string e boolean.
+                            <TaskComponent
+                                key={task.id}
+                                id={task.id}
+                                title={task.title}
+                                initialDone={task.done}
+                                onToggle={toggleTask}
+                                onUpdateTitle={updateTaskTitle}
+                                onDelete={deleteTask}
+                            />
+                        ))}
+
+                        {tasks.length === 0 && (
+                            <p className="text-center text-gray-500 mt-10">Nenhuma tarefa. Crie uma!</p>
+                        )}
+                    </div>
+                </CardContent>
+
             </Card>
-
-
         </div>
     )
 }

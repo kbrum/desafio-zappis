@@ -1,6 +1,5 @@
 "use client"
 import React, {useState} from "react";
-import TaskDeleteButton from "@/components/ui/taskDeleteButton";
 import {Checkbox} from "@/components/ui/checkbox";
 
 interface taskProps {
