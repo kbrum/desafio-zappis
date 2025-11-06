@@ -26,11 +26,10 @@ const TaskInput = ({onAddTask}: { onAddTask: (title: string) => void }) => {
                 onKeyDown={(e) => {
                     if (e.key === 'Enter') handleSubmit(); // Cria com Enter Key
                 }}
-                placeholder="Nova tarefa..."
-                className="flex-grow p-2 border border-input rounded-md text-black focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+                placeholder="nova tarefa"
+                className="flex-grow text-center p-2 border border-input rounded-md text-black focus:outline-none focus:ring-2"
             />
-            {/* Botão de Adicionar (Button genérico) */}
-            <Button size={"icon"} onClick={handleSubmit} disabled={!title.trim()}>
+            <Button className={"cursor-pointer"} size={"icon"} onClick={handleSubmit} disabled={!title.trim()}>
                 <PlusIcon className="h-4 w-4"/>
             </Button>
         </div>
@@ -43,7 +42,7 @@ export default function Home() {
     const [tasks, setTasks] = useState<Task[]>([]);
 
     const addTask = (title: string) => {
-        // Objeto de criação agora está em conformidade com a interface Task simplificada.
+
         const newTask: Task = {id: Date.now(), title, done: false,};
         setTasks(prevTasks => [newTask, ...prevTasks]);
     };
@@ -82,10 +81,8 @@ export default function Home() {
 
                 <CardContent className={"flex flex-col flex-grow p-6 pt-0 space-y-4"}>
 
-                    {/* Input e Botão de Criação */}
                     <TaskInput onAddTask={addTask}/>
 
-                    {/* Área da Lista (READ) */}
                     <div className="flex-grow overflow-y-auto space-y-2 pr-2">
 
                         {tasks.map(task => (
@@ -102,7 +99,7 @@ export default function Home() {
                         ))}
 
                         {tasks.length === 0 && (
-                            <p className="text-center text-gray-500 mt-10">Nenhuma tarefa. Crie uma!</p>
+                            <p className="text-center text-gray-500 mt-10">Nenhuma tarefa</p>
                         )}
                     </div>
                 </CardContent>
