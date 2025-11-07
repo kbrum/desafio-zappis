@@ -17,7 +17,7 @@ export async function getTasks() {
     return tasks;
 }
 
-export async function createTask(title: string, initialDone: boolean) {
+export async function createTaskAction(title: string, initialDone: boolean) {
 
     const newTask = await db
         .insert(task)
@@ -27,7 +27,7 @@ export async function createTask(title: string, initialDone: boolean) {
     return newTask;
 }
 
-export async function updateTask(id: number, update: { title?: unknown, initialDone?: unknown }) {
+export async function updateTaskAction(id: number, update: { title?: unknown, initialDone?: unknown }) {
 
     const updateData: { title?: string, initialDone?: boolean } = {};
 
@@ -74,7 +74,7 @@ export async function updateTask(id: number, update: { title?: unknown, initialD
 
 }
 
-export async function deleteTask(id: number) {
+export async function deleteTaskAction(id: number) {
 
     const existing = await db
         .select().from(task).where(eq(task.id, id));

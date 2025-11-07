@@ -1,6 +1,5 @@
 "use client"
 import React, {useState} from "react";
-// Importações de UI genéricas
 import {Checkbox} from "@/components/ui/checkbox";
 import {Button} from "@/components/ui/button";
 import {Trash2} from "lucide-react";
@@ -20,19 +19,18 @@ export default function TaskComponent({id, title, initialDone, onToggle, onUpdat
     const [isEditing, setIsEditing] = useState(false);
     const [taskTitle, setTaskTitle] = useState(title);
 
-    // ✅ FUNÇÃO NOVA E CORRETA: Manipula a API do Shadcn Checkbox
     const handleCheckToggle = (newChecked: boolean | 'indeterminate') => {
         const isChecked = newChecked === true;
         setChecked(isChecked);
-        onToggle(id, isChecked); // Comunica a mudança ao componente pai
+        onToggle(id, isChecked);
     }
 
-    // chama o metodo que deleta a task (Lifting State Up)
+    // chama o metodo que deleta a task
     const handleDelete = () => {
         onDelete(id);
     };
 
-    // gatilho de ativação da edição (duplo clique)
+    // gatilho de ativação da edição
     const handleDoubleClick = () => {
         setIsEditing(true);
         setTaskTitle(title);
@@ -45,12 +43,11 @@ export default function TaskComponent({id, title, initialDone, onToggle, onUpdat
         if (trimmedTitle && trimmedTitle !== title) {
             onUpdateTitle(id, trimmedTitle);
         } else {
-            setTaskTitle(title); // Reverte o rascunho
+            setTaskTitle(title);
         }
 
         setIsEditing(false);
     };
-
 
     const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
         if (event.key === 'Enter') {
