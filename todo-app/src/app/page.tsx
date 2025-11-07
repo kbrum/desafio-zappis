@@ -6,6 +6,7 @@ import {PlusIcon} from "lucide-react";
 import {Task} from "../../types";
 import TaskComponent from "@/components/ui/taskComponent";
 import {Input} from "@/components/ui/input";
+import {createTaskAction, deleteTaskAction} from "@/db/actions";
 
 
 const TaskInput = ({onAddTask}: { onAddTask: (title: string) => void }) => {
@@ -46,10 +47,24 @@ export default function Home() {
 
     const [tasks, setTasks] = useState<Task[]>([]);
 
-    const addTask = (title: string) => {
+    const addTask = async (title: string) => {
+        try {
 
-        const newTask: Task = {id: Date.now(), title, done: false,};
-        setTasks(prevTasks => [newTask, ...prevTasks]);
+            const newTasks = await createTaskAction(title, false).then();
+
+            const dbTask = newTasks[0];
+
+            const localTask: Task = {
+                id: dbTask.id,
+                title: dbTask.title,
+                done: dbTask.initialDone
+            };
+
+            setTasks(prevTasks => [localTask, ...prevTasks]);
+
+        } catch (error) {
+            console.error("Erro ao criar a task:", error);
+        }
     };
 
     const toggleTask = (id: number, isChecked: boolean) => {
@@ -68,9 +83,19 @@ export default function Home() {
         );
     };
 
-    const deleteTask = (id: number) => {
+    const deleteTask = async (id: number) => {
+
+        // faz um copia do array de tasks
+        const originalTasks = [...tasks];
+
+        //
+        setTasks(prevTasks => prevTasks.filter(task => task.id !== id));
+
         try {
-            awai
+            await deleteTaskAction(id);
+        } catch (error) {
+            console.error("Erro ao deletar a task:", error);
+            setTasks(originalTasks);
         }
     };
 
