@@ -52,7 +52,6 @@ export default function TaskComponent({id, title, initialDone, onToggle, onUpdat
     };
 
 
-    // atalhos de teclado (Enter para salvar, Escape para cancelar)
     const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
         if (event.key === 'Enter') {
             handleSave();
@@ -63,7 +62,6 @@ export default function TaskComponent({id, title, initialDone, onToggle, onUpdat
         }
     };
 
-    // Renderização condicional do título (Input ou Span)
     const taskDisplay = isEditing ? (
         <input
             type="text"
@@ -85,7 +83,6 @@ export default function TaskComponent({id, title, initialDone, onToggle, onUpdat
         <div className="flex justify-between items-center py-2 px-1 border-b border-gray-200 w-full">
 
             <label className="flex cursor-pointer space-x-3 items-center text-md flex-grow pr-4">
-                {/* Checkbox usando a API onCheckedChange */}
                 <Checkbox
                     checked={checked}
                     onCheckedChange={handleCheckToggle}
@@ -93,7 +90,6 @@ export default function TaskComponent({id, title, initialDone, onToggle, onUpdat
                 {taskDisplay}
             </label>
 
-            {/* Botão de Exclusão (Button genérico com variante destructive) */}
             {!isEditing && (
                 <Button
                     variant="destructive"

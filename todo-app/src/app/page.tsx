@@ -5,9 +5,11 @@ import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card";
 import {PlusIcon} from "lucide-react";
 import {Task} from "../../types";
 import TaskComponent from "@/components/ui/taskComponent";
+import {Input} from "@/components/ui/input";
 
 
 const TaskInput = ({onAddTask}: { onAddTask: (title: string) => void }) => {
+
     const [title, setTitle] = useState('');
 
     const handleSubmit = () => {
@@ -18,20 +20,23 @@ const TaskInput = ({onAddTask}: { onAddTask: (title: string) => void }) => {
     };
 
     return (
-        <div className="flex w-full space-x-2 pb-4 border-b">
-            <input
+        <div className="flex space-x-2 pb-4 border-b">
+
+            <Input
                 type="text"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 onKeyDown={(e) => {
-                    if (e.key === 'Enter') handleSubmit(); // Cria com Enter Key
+                    if (e.key === 'Enter') handleSubmit();
                 }}
                 placeholder="nova tarefa"
-                className="flex-grow text-center p-2 border border-input rounded-md text-black focus:outline-none focus:ring-2"
+                className="text-center"
             />
+
             <Button className={"cursor-pointer"} size={"icon"} onClick={handleSubmit} disabled={!title.trim()}>
                 <PlusIcon className="h-4 w-4"/>
             </Button>
+
         </div>
     );
 };
@@ -71,7 +76,7 @@ export default function Home() {
     return (
         <div className={"flex justify-center items-center h-screen"}>
 
-            <Card className={"w-[400px] h-[600px] flex flex-col"}>
+            <Card className={"w-[400px] h-[600px] flex flex-col gap-2"}>
 
                 <CardHeader>
                     <CardTitle className={"flex text-3xl justify-center items-center"}>
@@ -79,11 +84,11 @@ export default function Home() {
                     </CardTitle>
                 </CardHeader>
 
-                <CardContent className={"flex flex-col flex-grow p-6 pt-0 space-y-4"}>
+                <CardContent className={"flex overflow-auto flex-col flex-grow p-6 pt-0 space-y-3"}>
 
                     <TaskInput onAddTask={addTask}/>
 
-                    <div className="flex-grow overflow-y-auto space-y-2 pr-2">
+                    <div className="flex-grow space-y-2 pr-2">
 
                         {tasks.map(task => (
                             // Os valores task.title e task.done AGORA são garantidos como string e boolean.
