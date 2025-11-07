@@ -30,7 +30,7 @@ const UserRegister = () => {
     }
 
     return (
-        <div className="flex-col space-y-8 justify-center items-center">
+        <div className="flex-col space-y-5 justify-center items-center mb-5">
             <div className="flex-col space-y-4">
                 <label className="text-lg text-center">Username</label>
                 <Input
@@ -57,7 +57,7 @@ const UserRegister = () => {
                 />
             </div>
 
-            <div className="flex justify-center align-bottom">
+            <div className="flex justify-center">
                 <Button
                     size={"lg"}
                     className={"cursor-pointer justify-center"}
@@ -68,6 +68,7 @@ const UserRegister = () => {
             </div>
         </div>
     );
+    5
 };
 
 export default function Login() {
@@ -75,7 +76,7 @@ export default function Login() {
 
     return (
         <div className={"flex justify-center items-center h-screen"}>
-            <Card className={"w-[500px] h-[400px] flex flex-col"}>
+            <Card className={"w-[500px] h-[350px] flex flex-col"}>
                 <CardHeader className={"flex-row flex gap-4 justify-center"}>
                     <CardTitle>
                         <h1 className={"text-4xl"}>Login</h1>
@@ -85,7 +86,7 @@ export default function Login() {
                 <CardContent className={"flex-col"}>
                     <UserRegister/>
 
-                    <div className={"flex"}>
+                    <div className={"flex justify-center"}>
                         <p className={"text-sm"}>
                             Não tem conta? <a href={"/register"} className={"text-blue-500"}>Registre-se</a>
                         </p>
