@@ -77,13 +77,14 @@ export default function TaskComponent({id, title, initialDone, onToggle, onUpdat
     );
 
     return (
-        <div className="flex justify-between items-center py-2 px-1 border-b border-gray-200 w-full">
+        <div className="flex space-x-2 items-center py-2 px-1 border-b border-gray-200 w-full">
+
+            <Checkbox
+                checked={checked}
+                onCheckedChange={handleCheckToggle}
+            />
 
             <label className="flex cursor-pointer space-x-3 items-center text-md flex-grow pr-4">
-                <Checkbox
-                    checked={checked}
-                    onCheckedChange={handleCheckToggle}
-                />
                 {taskDisplay}
             </label>
 
