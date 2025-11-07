@@ -89,12 +89,7 @@ export default function TaskComponent({id, title, initialDone, onToggle, onUpdat
             </label>
 
             {!isEditing && (
-                <Button
-                    variant="destructive"
-                    size="icon"
-                    onClick={handleDelete}
-                    className="h-8 w-8 p-1.5"
-                >
+                <Button variant="destructive" size="icon" onClick={handleDelete} className="h-8 w-8 p-1.5">
                     <Trash2 className="h-4 w-4"/>
                 </Button>
             )}

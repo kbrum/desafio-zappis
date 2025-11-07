@@ -6,7 +6,7 @@ import {PlusIcon} from "lucide-react";
 import {Task} from "../../types";
 import TaskComponent from "@/components/ui/taskComponent";
 import {Input} from "@/components/ui/input";
-import {createTaskAction, deleteTaskAction, getTasks, updateTaskAction} from "@/db/actions";
+import {createTaskAction, deleteTaskAction, getTasks, updateTaskAction} from "@/db/taskActions";
 
 
 const TaskInput = ({onAddTask}: { onAddTask: (title: string) => void }) => {
@@ -21,7 +21,7 @@ const TaskInput = ({onAddTask}: { onAddTask: (title: string) => void }) => {
     };
 
     return (
-        <div className="flex space-x-2 pb-4 border-b">
+        <div className="flex space-x-2">
 
             <Input
                 type="text"
@@ -31,7 +31,7 @@ const TaskInput = ({onAddTask}: { onAddTask: (title: string) => void }) => {
                     if (e.key === 'Enter') handleSubmit();
                 }}
                 placeholder="nova tarefa"
-                className="text-center"
+                className="text-center align-baseline"
             />
 
             <Button className={"cursor-pointer"} size={"icon"} onClick={handleSubmit} disabled={!title.trim()}>
@@ -72,7 +72,6 @@ export default function Home() {
 
     const addTask = async (title: string) => {
         try {
-
             const newTasks = await createTaskAction(title, false).then();
 
             const dbTask = newTasks[0];
@@ -145,18 +144,16 @@ export default function Home() {
     return (
         <div className={"flex justify-center items-center h-screen"}>
 
-            <Card className={"w-[400px] h-[600px] flex flex-col gap-2"}>
-
-                <CardHeader>
-                    <CardTitle className={"flex text-3xl justify-center items-center"}>
+            <Card className={"w-[400px] h-[600px] flex flex-col"}>
+                <CardHeader className={"flex-col gap-4"}>
+                    <CardTitle className={"flex text-4xl justify-center items-center"}>
                         TO-DO LIST
                     </CardTitle>
+
+                    <TaskInput onAddTask={addTask}/>
                 </CardHeader>
 
                 <CardContent className={"flex overflow-auto flex-col flex-grow p-6 pt-0 space-y-3"}>
-
-                    <TaskInput onAddTask={addTask}/>
-
                     <div className="flex-grow space-y-2 pr-2">
 
                         {tasks.map(task => (

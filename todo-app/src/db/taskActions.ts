@@ -19,7 +19,7 @@ export async function getTasks() {
 
 export async function createTaskAction(title: string, initialDone: boolean) {
 
-    const newTask = db
+    const newTask = await db
         .insert(task)
         .values({title, initialDone})
         .returning();
@@ -64,7 +64,7 @@ export async function updateTaskAction(id: number, update: { title?: unknown, in
         throw new Error("Nenhum campo para ser modificado");
     }
 
-    const updateTask = db
+    const updateTask = await db
         .update(task)
         .set(updateData)
         .where(eq(task.id, id))
@@ -83,7 +83,7 @@ export async function deleteTaskAction(id: number) {
         throw new Error("rapaz, task não encontrada")
     }
 
-    const deleteTask = db
+    const deleteTask = await db
         .delete(task)
         .where(eq(task.id, id))
         .returning();
