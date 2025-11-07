@@ -1,12 +1,12 @@
 "use client"
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Button} from "@/components/ui/button";
 import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card";
 import {PlusIcon} from "lucide-react";
 import {Task} from "../../types";
 import TaskComponent from "@/components/ui/taskComponent";
 import {Input} from "@/components/ui/input";
-import {createTaskAction, deleteTaskAction} from "@/db/actions";
+import {createTaskAction, deleteTaskAction, getTasks, updateTaskAction} from "@/db/actions";
 
 
 const TaskInput = ({onAddTask}: { onAddTask: (title: string) => void }) => {
@@ -47,6 +47,29 @@ export default function Home() {
 
     const [tasks, setTasks] = useState<Task[]>([]);
 
+    useEffect(() => {
+
+        const loadTasks = async () => {
+            try {
+                const dbTasks = await getTasks();
+
+                const loadedTasks: Task[] = dbTasks.map(task => ({
+                    id: task.id,
+                    title: task.title,
+                    done: task.initialDone
+                }));
+
+                setTasks(loadedTasks);
+
+            } catch (error) {
+                console.error("Erro ao carregar as tasks:", error);
+            }
+        };
+
+        loadTasks();
+
+    }, []);
+
     const addTask = async (title: string) => {
         try {
 
@@ -67,20 +90,39 @@ export default function Home() {
         }
     };
 
-    const toggleTask = (id: number, isChecked: boolean) => {
+    const toggleTask = async (id: number, isChecked: boolean) => {
+
+        const originalTasks = [...tasks];
+
         setTasks(prevTasks =>
             prevTasks.map(task =>
                 task.id === id ? {...task, done: isChecked} : task
             )
         );
+
+        try {
+            await updateTaskAction(id, {initialDone: isChecked});
+        } catch (error) {
+            console.error("Erro ao atualizar o status da task:", error);
+            setTasks(originalTasks);
+        }
     };
 
-    const updateTaskTitle = (id: number, newTitle: string) => {
+    const updateTaskTitle = async (id: number, newTitle: string) => {
+        const originalTasks = [...tasks];
+
         setTasks(prevTasks =>
             prevTasks.map(task =>
                 task.id === id ? {...task, title: newTitle} : task
             )
         );
+
+        try {
+            await updateTaskAction(id, {title: newTitle});
+        } catch (error) {
+            console.error("Erro ao atualizar o título da task:", error);
+            setTasks(originalTasks);
+        }
     };
 
     const deleteTask = async (id: number) => {
@@ -118,7 +160,6 @@ export default function Home() {
                     <div className="flex-grow space-y-2 pr-2">
 
                         {tasks.map(task => (
-                            // Os valores task.title e task.done AGORA são garantidos como string e boolean.
                             <TaskComponent
                                 key={task.id}
                                 id={task.id}
