@@ -2,12 +2,34 @@
 import {db} from "@/index";
 import {task} from "@/db/schema";
 import {eq} from "drizzle-orm";
+import {cookies} from "next/headers";
+import jwt from "jsonwebtoken";
+
 
 export async function getTasks() {
+
+    const cookie = await cookies()
+
+    const value = cookie.get("session")
+
+    if (!value) {
+        throw new Error("cookie value dont exists")
+    }
+
+    const validateToken = jwt.verify(value.value, process.env.JWT_SECRET!) as { userId: number }
+
+    if (typeof validateToken === "string") {
+        throw new Error("token invalid")
+    }
+
+    if (typeof validateToken === null) {
+        throw new Error("token invalid")
+    }
 
     const tasks = await db
         .select()
         .from(task)
+        .where(eq(task.userId, validateToken.userId))
         .orderBy(task.id);
 
     if (tasks.length === 0) {
@@ -19,9 +41,27 @@ export async function getTasks() {
 
 export async function createTaskAction(title: string, initialDone: boolean) {
 
+    const cookie = await cookies()
+
+    const value = cookie.get("session")
+
+    if (!value) {
+        throw new Error("cookie value dont exists")
+    }
+
+    const validateToken = jwt.verify(value.value, process.env.JWT_SECRET!) as { userId: number }
+
+    if (typeof validateToken === "string") {
+        throw new Error("token invalid")
+    }
+
+    if (typeof validateToken === null) {
+        throw new Error("token invalid")
+    }
+
     const newTask = await db
         .insert(task)
-        .values({title, initialDone})
+        .values({title, initialDone, userId: validateToken.userId})
         .returning();
 
     return newTask;

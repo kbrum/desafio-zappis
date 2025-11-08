@@ -38,7 +38,7 @@ const UserRegister = () => {
     };
 
     const registerUser = async () => {
-        registerUserAction(username, password, name)
+        registerUserAction(username, name, password)
         handleSubmit()
     }
 

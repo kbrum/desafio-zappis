@@ -6,7 +6,7 @@ export const task = sqliteTable("task", {
     title: text().notNull(),
     initialDone: int({mode: "boolean"}).notNull().default(false),
     createdAt: text().notNull().default(new Date().toISOString()),
-    userId: text("user_id").notNull().references(() => user.id)
+    userId: int().notNull().references(() => user.id)
 });
 
 export const user = sqliteTable("user", {

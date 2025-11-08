@@ -1,6 +1,7 @@
 import type {Metadata} from "next";
 import {Modak, Rubik_Mono_One, Space_Grotesk} from "next/font/google";
 import "./globals.css";
+import {Toaster} from "@/components/ui/sonner"
 
 const font3 = Rubik_Mono_One({
     weight: "400",
@@ -28,8 +29,11 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <html lang="en">
-        <body className={font3.className}>{children}</body>
+        <html lang="en" suppressHydrationWarning={true}>
+        <body className={font3.className}>{children}
+        <Toaster/>
+        </body>
+
         </html>
     );
 }

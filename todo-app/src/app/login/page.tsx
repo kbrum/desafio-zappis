@@ -3,6 +3,8 @@ import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card";
 import {Input} from "@/components/ui/input";
 import React, {useState} from "react";
 import {Button} from "@/components/ui/button";
+import {loginUserAction} from "@/db/userActions";
+import {toast} from "sonner";
 
 const UserRegister = () => {
 
@@ -24,6 +26,15 @@ const UserRegister = () => {
             setPassword('');
         }
     };
+
+    const loginUser = async () => {
+        try {
+            await loginUserAction(username, password)
+            toast("Login Success")
+        } catch (e) {
+            toast("Login Error")
+        }
+    }
 
     return (
         <div className="flex-col space-y-5 justify-center items-center mb-5">
@@ -55,7 +66,7 @@ const UserRegister = () => {
                 <Button
                     size={"lg"}
                     className={"cursor-pointer justify-center"}
-                    onClick={handleSubmit}
+                    onClick={loginUser}
                 >
                     Login
                 </Button>
