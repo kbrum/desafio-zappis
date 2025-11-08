@@ -3,6 +3,7 @@ import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card";
 import React, {useState} from "react";
 import {Input} from "@/components/ui/input";
 import {Button} from "@/components/ui/button";
+import {registerUserAction} from "@/db/userActions";
 
 const UserRegister = () => {
 
@@ -13,30 +14,32 @@ const UserRegister = () => {
     const [password, setPassword] = useState('');
 
 
-    const handleNameSubmit = () => {
+    const handleSubmit = () => {
         if (name.trim()) {
             setName('');
         }
-    };
 
-    const handleUsernameSubmit = () => {
         if (username.trim()) {
             setUsername('');
         }
-    }
 
-    const handlePasswordSubmit = () => {
         if (password.trim()) {
             setPassword('');
         }
-    }
 
-    const handleSubmit = () => {
         if (name.trim() && username.trim() && password.trim()) {
             setName('');
             setUsername('');
             setPassword('');
+
+
         }
+
+    };
+
+    const registerUser = async () => {
+        registerUserAction(username, password, name)
+        handleSubmit()
     }
 
     return (
@@ -48,10 +51,9 @@ const UserRegister = () => {
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     onKeyDown={(e) => {
-                        if (e.key === 'Enter') handleNameSubmit();
+                        if (e.key === 'Enter') handleSubmit();
                     }}
                     placeholder="Name"
-                    className="text-center"
                 />
 
                 <label className="text-lg text-center">Username</label>
@@ -60,10 +62,9 @@ const UserRegister = () => {
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
                     onKeyDown={(e) => {
-                        if (e.key === 'Enter') handleUsernameSubmit();
+                        if (e.key === 'Enter') handleSubmit();
                     }}
                     placeholder="Username"
-                    className="text-center"
                 />
 
                 <label className="text-lg text-center">Password</label>
@@ -72,10 +73,9 @@ const UserRegister = () => {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     onKeyDown={(e) => {
-                        if (e.key === 'Enter') handlePasswordSubmit();
+                        if (e.key === 'Enter') handleSubmit();
                     }}
                     placeholder="Password"
-                    className="text-center"
                 />
             </div>
 
@@ -83,7 +83,7 @@ const UserRegister = () => {
                 <Button
                     size={"lg"}
                     className={"cursor-pointer justify-center"}
-                    onClick={handleSubmit}
+                    onClick={registerUser}
                 >
                     Register
                 </Button>

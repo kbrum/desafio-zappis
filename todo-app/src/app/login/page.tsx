@@ -10,24 +10,20 @@ const UserRegister = () => {
 
     const [password, setPassword] = useState('');
 
-    const handleUsernameSubmit = () => {
-        if (username.trim()) {
-            setUsername('');
-        }
-    };
-
-    const handlePasswordSubmit = () => {
-        if (username.trim()) {
-            setUsername('');
-        }
-    };
-
     const handleSubmit = () => {
+        if (username.trim()) {
+            setUsername('');
+        }
+
+        if (password.trim()) {
+            setPassword('');
+        }
+
         if (username.trim() && password.trim()) {
             setUsername('');
             setPassword('');
         }
-    }
+    };
 
     return (
         <div className="flex-col space-y-5 justify-center items-center mb-5">
@@ -38,10 +34,9 @@ const UserRegister = () => {
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
                     onKeyDown={(e) => {
-                        if (e.key === 'Enter') handleUsernameSubmit();
+                        if (e.key === 'Enter') handleSubmit();
                     }}
                     placeholder="Username"
-                    className="text-center"
                 />
 
                 <label className="text-lg text-center">Password</label>
@@ -50,10 +45,9 @@ const UserRegister = () => {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     onKeyDown={(e) => {
-                        if (e.key === 'Enter') handlePasswordSubmit();
+                        if (e.key === 'Enter') handleSubmit();
                     }}
                     placeholder="Password"
-                    className="text-center"
                 />
             </div>
 

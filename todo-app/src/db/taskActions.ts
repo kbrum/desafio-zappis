@@ -53,7 +53,7 @@ export async function updateTaskAction(id: number, update: { title?: unknown, in
 
     if (update.initialDone !== undefined) {
         if (typeof update.initialDone !== "boolean") {
-            throw new Error("rapaz, o stado tem ser um bool");
+            throw new Error("O stado tem ser um bool");
         }
 
         updateData.initialDone = update.initialDone;
@@ -80,7 +80,7 @@ export async function deleteTaskAction(id: number) {
         .select().from(task).where(eq(task.id, id));
 
     if (existing.length === 0) {
-        throw new Error("rapaz, task não encontrada")
+        throw new Error("Task não encontrada")
     }
 
     const deleteTask = await db

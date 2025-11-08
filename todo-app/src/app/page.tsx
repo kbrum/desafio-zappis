@@ -31,7 +31,6 @@ const TaskInput = ({onAddTask}: { onAddTask: (title: string) => void }) => {
                     if (e.key === 'Enter') handleSubmit();
                 }}
                 placeholder="nova tarefa"
-                className="text-center align-baseline"
             />
 
             <Button className={"cursor-pointer"} size={"icon"} onClick={handleSubmit} disabled={!title.trim()}>
@@ -139,8 +138,7 @@ export default function Home() {
             setTasks(originalTasks);
         }
     };
-
-
+    
     return (
         <div className={"flex justify-center items-center h-screen"}>
 
