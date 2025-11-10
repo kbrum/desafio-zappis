@@ -6,6 +6,7 @@ import {eq} from "drizzle-orm";
 import jwt from 'jsonwebtoken';
 import {cookies} from "next/headers";
 import {redirect} from "next/navigation";
+import {cookiesFecth} from "@/actions/cookieActions";
 
 export async function registerUserAction(username: string, name: string, password: string) {
 
@@ -13,11 +14,12 @@ export async function registerUserAction(username: string, name: string, passwor
 
     const hashPassword = await bcrypt.hash(password, saltRounds);
 
-    const newUser = await db
-        .insert(user)
-        .values({username, name, password: hashPassword})
-        .returning();
-    redirect("/login")
+    await db
+    .insert(user)
+    .values({username, name, password: hashPassword})
+    .returning();
+
+    await loginUserAction(username, password)
 }
 
 export async function loginUserAction(inputUsername: string, inputPassword: string) {

@@ -2,21 +2,15 @@
 import {db} from "@/index";
 import {task} from "@/db/schema";
 import {eq} from "drizzle-orm";
-import {cookies} from "next/headers";
 import jwt from "jsonwebtoken";
+import {cookiesFecth} from "@/actions/cookieActions";
 
 
 export async function getTasks() {
 
-    const cookie = await cookies()
+    const cookie = await cookiesFecth()
 
-    const value = cookie.get("session")
-
-    if (!value) {
-        throw new Error("cookie value dont exists")
-    }
-
-    const validateToken = jwt.verify(value.value, process.env.JWT_SECRET!) as { userId: number }
+    const validateToken = jwt.verify(cookie, process.env.JWT_SECRET!) as { userId: number }
 
     if (typeof validateToken === "string") {
         throw new Error("token invalid")
@@ -41,15 +35,9 @@ export async function getTasks() {
 
 export async function createTaskAction(title: string, initialDone: boolean) {
 
-    const cookie = await cookies()
+    const cookie = await cookiesFecth()
 
-    const value = cookie.get("session")
-
-    if (!value) {
-        throw new Error("cookie value dont exists")
-    }
-
-    const validateToken = jwt.verify(value.value, process.env.JWT_SECRET!) as { userId: number }
+    const validateToken = jwt.verify(cookie, process.env.JWT_SECRET!) as { userId: number }
 
     if (typeof validateToken === "string") {
         throw new Error("token invalid")
